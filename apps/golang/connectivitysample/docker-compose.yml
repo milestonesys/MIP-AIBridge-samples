@@ -1,0 +1,43 @@
+services:
+  connectivity-sample:
+    image: public.ecr.aws/milestonesys/aibridge/apps/connectivitysample:connectivity-sample-1.0.0
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        TARGETARCH: "${TARGETARCH}"
+    environment:
+      EXTERNAL_HOSTNAME: ${EXTERNAL_HOSTNAME}
+      APP_WEBSERVER_PORT: ${APP_WEBSERVER_PORT}
+      APP_URL_PATH: ${APP_URL_PATH}
+      TLS_SCHEME: ${TLS_SCHEME:-http}
+    command: -aib-webservice-location aibridge-webservice:4000
+             -snapshot-max-width 600
+             -snapshot-max-height 600
+             -enforce-oauth=true
+             -app-registration-file-path /root/bin/config/register.graphql
+             -app-webserver-port ${APP_WEBSERVER_PORT}
+             -app-url-path ${APP_URL_PATH}
+             -tls-enabled=${TLS_ENABLED:-false}
+    ports:
+      - 7443:7443
+    expose:
+      - "7443"
+    volumes:
+      - type: bind
+        source: ./certs/tls-ca
+        target: /usr/local/share/ca-certificates
+      - type: bind
+        source: ./certs/tls-server
+        target: /root/bin/certs/tls-server
+      - type: bind
+        source: ./config
+        target: /root/bin/config
+    extra_hosts:
+      - "${EXTERNAL_HOSTNAME}:${EXTERNAL_IP}"
+      # - "${VMS_HOSTNAME}:${VMS_IP}" # Uncomment this line if your vms is not in the network domain
+
+networks:
+  default:
+    external: true
+    name: ${AIBRIDGE_NETWORK}

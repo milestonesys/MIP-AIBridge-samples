@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Snapshot Camera Page</title>
+    <link rel="icon" href="data:,">
+    <style>
+      body {
+        color: #489cdc;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Use case: Rendering camera's snapshot</h2>
+    <br/>
+
+    <div id="img">
+      <img src="data:image/jpeg;base64,{{ .ImageUrl }}" alt="Snapshot from camera">
+    </div>
+  </body>
+</html>

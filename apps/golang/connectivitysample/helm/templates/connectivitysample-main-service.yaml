@@ -1,0 +1,106 @@
+{{- /*
+  Helm chart for the Connectivity Sample main (and unique service).
+*/ -}}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-iva-connectivitysample
+  labels:
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    app: {{ .Release.Name }}-iva-connectivitysample
+    app.kubernetes.io/name: iva-connectivitysample
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: webservice
+    app.kubernetes.io/part-of: {{ .Chart.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicas.connectivitysample }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-iva-connectivitysample
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-iva-connectivitysample
+    spec:
+      volumes:
+{{- if .Values.general.tlsEnabled }}
+      #In case the VMS is running secured with TLS. You should include the crt root CA certificate. It must be in .crt format.
+      - name: {{ .Release.Name }}-iva-connectivitysample-tls-ca
+        configMap:
+          name: vms-authority 
+          optional: true
+      #In case the IVA app needs to be exposed directly (not through ingress), when setting 'debug' to true in values.yaml
+      - name: {{ .Release.Name }}-iva-connectivitysample-tls-server
+        secret:
+          secretName: server-tls
+{{- end }}
+      #Configuration file used to register the iva in the ai-bridge (register.graphql)
+      - name: {{ .Release.Name }}-iva-connectivitysample-config
+        configMap:
+          name: {{ .Release.Name }}-config
+          optional: false
+      containers:
+        - name: {{ .Release.Name }}-iva-connectivitysample
+          image: public.ecr.aws/milestonesys/aibridge/apps/connectivitysample:connectivity-sample-1.0.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: EXTERNAL_HOSTNAME
+              value: {{ .Values.general.externalHostname | quote }}
+            - name: APP_WEBSERVER_PORT
+              value: {{ .Values.general.appWebserverPort | quote }}
+            - name: APP_URL_PATH
+              value: {{ .Values.general.appUrlPath | quote }}
+            - name: TLS_SCHEME
+              value: "{{- template "tls.scheme" . -}}"
+          # The ingress rule is using the tls certificates. This backend service runs unsecure.
+          args: [
+            "-aib-webservice-location", "aib-aibridge-webservice:4000",
+            "-enforce-oauth=true",
+            "-tls-certificate-file=certs/tls-server/tls.crt",
+            "-tls-key-file=certs/tls-server/tls.key",
+            {{- if and .Values.general.tlsEnabled .Values.general.debug }} "-tls-enabled=true" {{- else -}} "-tls-enabled=false" {{- end }},
+            "-snapshot-max-width=600",
+            "-snapshot-max-height=600",
+            {{- if .Values.general.debug }}
+            "-app-registration-file-path", "/root/bin/config/register-debug.graphql",
+            {{- else }}
+            "-app-registration-file-path", "/root/bin/config/register.graphql",
+            {{- end }}
+            "-app-webserver-port", "{{ .Values.general.appWebserverPort | default 7443 }}",]
+          ports:
+            - containerPort: {{ .Values.general.appWebserverPort | default 7443 }}
+          volumeMounts:
+{{- if .Values.general.tlsEnabled }}
+            - name: {{ .Release.Name }}-iva-connectivitysample-tls-ca
+              mountPath: /usr/local/share/ca-certificates
+              readOnly: true
+            - name: {{ .Release.Name }}-iva-connectivitysample-tls-server
+              mountPath: /root/bin/certs/tls-server
+              readOnly: true
+{{- end }}
+            - name: {{ .Release.Name }}-iva-connectivitysample-config
+              mountPath: /root/bin/config
+              readOnly: true
+      imagePullSecrets:
+      - name: nexus-cred-secret
+      hostAliases:
+{{ include "hostAliases.external" . | indent 8 }}
+{{ include "hostAliases.vms" . | indent 8 }}
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-iva-connectivitysample
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ .Release.Name }}-iva-connectivitysample
+  ports:
+    - name: webserver
+      port: {{ .Values.general.appWebserverPort | default 7443 }}
+      targetPort: {{ .Values.general.appWebserverPort | default 7443 }}
+      protocol: TCP

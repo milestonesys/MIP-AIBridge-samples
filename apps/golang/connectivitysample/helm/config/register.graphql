@@ -1,0 +1,21 @@
+apps: [ {
+  id: "${APP_ID}"
+  url: "${TLS_SCHEME}://${EXTERNAL_HOSTNAME}/${APP_URL_PATH}"
+  name: "${APP_NAME}"
+  version: "${TAG}"
+  description: "${APP_DESCRIPTION}"
+  manufacturer: {
+    name: "${MANUFACTURER_NAME}"
+  }
+  eventTopics: [ {
+    url: "${TLS_SCHEME}://${EXTERNAL_HOSTNAME}/${APP_URL_PATH}/snapshot"
+    name: "getsnapshot"
+    description: "Get a Snapshot from the video"
+    eventFormat: ANALYTICS_EVENT
+  }, {
+    url: "${TLS_SCHEME}://${EXTERNAL_HOSTNAME}/${APP_URL_PATH}/event/sendanalyticevents"
+    name: "sendanalyticevents"
+    description: "Send Analytic Events"
+    eventFormat: ANALYTICS_EVENT
+  } ]
+}]

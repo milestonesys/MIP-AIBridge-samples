@@ -1,0 +1,95 @@
+{
+    "name": "My event",
+    "description": "Just a test event",
+    "class": "MyEventClass",
+    "subclass": "MyEventSubclass",
+    "count": 10,
+    "tag": "MyTag",
+    "atLocation": {
+        "type": "Location",
+        "name": "Banemarksvej 50",
+        "description": "Milestone Systems"
+    },
+    "fromSource": {
+         "type": "Reference", "uuid": "{{ .CameraID }}" 
+    },
+    "relatedTo": [
+        { "type": "Reference", "uuid": "{{ .CameraID }}" },
+        { "type": "Reference", "uuid": "{{ .CameraID }}" }
+    ],
+    "triggeredByRule": [ {
+            "name": "MyRule",
+            "class": "MyRuleClass",
+            "hasTriggerZone": [ {
+                    "type": "Polygon",
+                    "closed": false,
+                    "hasVertices": [
+                        { "x": 0.1, "y": 0.5 },
+                        { "x": 0.9, "y": 0.5 }
+                    ],
+                    "hasLineColor": { "red": 255, "green": 0, "blue": 0, "alpha": 255 }
+                }
+            ]
+        }
+    ],
+    "involvedObject": [ {
+            "type": "Object",
+            "name": "Detected car",
+            "description": "MyObjectDescription",
+            "class": "Car",
+            "confidence": 0.8,
+            "readout": "MyObject",
+            "trigger": false,
+            "removed": false,
+            "color": "Red",
+            "hasSize": {
+                "type": "QuantitativeValue",
+                "value": 4.32,
+                "unitText": "m"
+            },
+            "hasOutline": {
+                "type": "Polygon",
+                "closed": true,
+                "hasVertices": [
+                    { "x": 0.3, "y": 0.3 },
+                    { "x": 0.5, "y": 0.3 },
+                    { "x": 0.5, "y": 0.5 },
+                    { "x": 0.3, "y": 0.5 }
+                ],
+                "hasLineColor": { "red": 0, "green": 255, "blue": 0, "alpha": 255 },
+                "hasFillColor": { "red": 0, "green": 255, "blue": 0, "alpha": 30 }
+            },
+            "hasMotion": {
+                "type": "Motion",
+                "hasSpeed": {
+                    "type": "QuantitativeValue",
+                    "value": 10.3,
+                    "unitText": "km/h"
+                },
+                "followsPath": {
+                    "type": "Polygon",
+                    "closed": false,
+                    "hasVertices": [
+                        { "x": 0.5, "y": 0.1 },
+                        { "x": 0.5, "y": 0.9 }
+                    ],
+                    "hasLineColor": { "red": 0, "green": 0, "blue": 255, "alpha": 255 }
+                }
+            }
+        }
+    ],
+    "includesSnapshot": [
+        { 
+            "type": "Snapshot",
+            "name": "Fake snapshot",
+            "description": "JPEG image of a fake snapshot",
+            "imageData": "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" 
+        }
+    ],
+    "fromVendor": {
+        "type": "Vendor",
+        "name": "MyVendor",
+        "description": "MyVendorDescription",
+        "customData": "My custom data"
+    }
+}

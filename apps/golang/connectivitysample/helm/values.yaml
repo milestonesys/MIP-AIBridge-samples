@@ -1,0 +1,16 @@
+replicas:
+  connectivitysample: 1
+
+vms:
+  # Define these variables if your vms is not in the network domain
+  # ip: "<my-management-server-ip>"
+  # hostname: "<my-management-server-hostname>"
+
+general:
+  # IVA hostname and IP address through which the machine running the IVA can be reached
+  externalHostname: "<kubernetes-cluster-hostname>" #Example:"my-egx-cluster"
+  externalIP: "<kubernetes-cluster-ip-address>" #Example:"116.234.169.95"
+  appWebserverPort: 7443 # The port in which the app can be reached
+  appUrlPath: "connectivitysample" # The URL prefix to reach the app
+  debug: false # When set to true the services defined in 'ingress-debug.yaml' will be exposed outside of the cluster network.
+  tlsEnabled: false # When set to true the app will be exposed through https. Milestone AI Bridge should also be configured to use https. Otherwise, set to false.

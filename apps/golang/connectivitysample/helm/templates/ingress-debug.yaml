@@ -1,0 +1,32 @@
+{{- /*
+Define here the app's services that you will like to expose to the outside world (useful for troubleshooting)
+*/ -}}
+
+{{- if .Values.general.debug -}}
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-ingress-iva-connectivitysample
+  labels:
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    app: {{ .Release.Name }}-iva-connectivitysample
+    app.kubernetes.io/name: iva-connectivitysample
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: database
+    app.kubernetes.io/part-of: {{ .Chart.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: LoadBalancer
+  externalIPs:
+    -  {{ .Values.general.externalIP }}
+  selector:
+    app: {{ .Release.Name }}-iva-connectivitysample
+  ports:
+    - name: {{ .Release.Name }}-iva-connectivitysample
+      port: {{ .Values.general.appWebserverPort| default 7443 }}
+      targetPort: {{ .Values.general.appWebserverPort | default 7443 }}
+      protocol: TCP
+      
+{{- end -}}

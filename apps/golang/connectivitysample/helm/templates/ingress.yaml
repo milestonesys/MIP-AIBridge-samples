@@ -1,0 +1,39 @@
+{{- /*
+  Rules for the ingress service that will expose the app to the outside world.
+*/ -}}
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-ingress
+  labels:
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    app.kubernetes.io/name: ingress
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: ingress
+    app.kubernetes.io/part-of: {{ .Chart.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ .Values.general.externalHostname | lower }}
+      http:
+        paths:
+          - path: /({{ .Values.general.appUrlPath | lower }}/?.*)
+            pathType: Exact
+            backend:
+              service:
+                name: {{ .Release.Name }}-iva-connectivitysample
+                port:
+                  number: {{ .Values.general.appWebserverPort | default 7443 }}
+
+# Milestone AI Bridge should also be configured to use https. Otherwise, set 'tlsEnabled' to false.
+{{- if .Values.general.tlsEnabled }}
+  tls:
+    - hosts:
+      - {{ .Values.general.externalHostname | lower }}
+      secretName: server-tls
+{{- end }}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Sending analytical events to the VMS</title>
+    <link rel="icon" href="data:,">
+    <style>
+      body {
+        color: #489cdc;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      #postButton {
+        display: inline-block;
+        padding: 10px;
+        background-color: #489cdc;
+        color: white;
+        cursor: pointer;
+      }
+      #postButton:hover {
+        background-color: #204b6c;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>Use case: Sending analytics events to the VMS</h2>
+
+    <p><b>Camera ID:</b> {{ .CameraID }}</p>
+    <p><b>Stream ID:</b> {{ .StreamID }}</p>
+    <p><b>Topic Name:</b> {{ .TopicName }}</p>
+    <br/>
+
+    <div id="postButton">
+      {{ .Status }}
+    </div>
+
+    <script>
+      document.getElementById('postButton').addEventListener('click', function() {
+          // Data to be sent in the POST request
+          const data = {
+              cameraId: '{{ .CameraID }}',
+              topicName: '{{ .TopicName }}',
+          };
+
+          // Options for the fetch request
+          const options = {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+          };
+
+          // URL to which the request is sent
+          const url = '/{{ .AppUrlPath }}/event/processing/';
+
+          // Sending the POST request
+            fetch(url, options)
+              .then(response => response.json())
+              .then(data => {
+                if (data.EventStatus) {
+                  document.getElementById('postButton').innerText = data.EventStatus;
+                } else {
+                  console.error('EventStatus not found in response');
+                }
+              })
+              .catch(error => console.error('Error:', error));
+      });
+  </script>
+
+  </body>
+</html>

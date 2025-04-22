@@ -1,0 +1,6 @@
+apiVersion: v2
+name: connectivitysample
+description: IVA connectivitysample
+type: application
+version: 1.0.0
+appVersion: 1.0.0
