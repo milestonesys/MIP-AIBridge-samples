@@ -1,6 +1,21 @@
-# Connectivity sample helm chart
+# Connectivity sample Helm chart
 
-If you are using Helm chart to configure your Milestone AI Bridge, you must also use helm chart to configure your IVA apps.
+If you are using Helm chart to configure your Milestone AI Bridge, you must also use Helm chart to configure your IVA apps.
+
+## Pulling Helm charts from AWS ECR
+
+If you don't want to clone the entire repository, you can pull only the Helm charts from [AWS ECR](https://gallery.ecr.aws/milestonesys/aibridge/apps/connectivitysample). 
+
+To do this, run these commands:
+
+  ```bash
+    helm pull oci://public.ecr.aws/milestonesys/aibridge/apps/connectivitysample --version 1.0.0
+    tar -zxvf connectivitysample-1.0.0.tgz
+    cd connectivitysample/
+  ```
+After this, you will get a connectivitysample folder with the same structure as displayed below.
+
+## Main files
 
 The following files are located in the helm folder.
 
@@ -20,8 +35,6 @@ The following files are located in the helm folder.
 │   └── connectivitysample-main-service.yaml
 └── values.yaml
 ```
-
-## Main files
 
 - Chart.yaml: This is the default template file for Helm chart packages. No modification is required.
 - README.md: This readme file.

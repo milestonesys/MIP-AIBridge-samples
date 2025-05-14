@@ -26,7 +26,7 @@ Content:
   - [Requirements](#requirements)
   - [Run as process](#run-as-process)
   - [Install the app based on Docker Compose](#install-the-app-based-on-docker-compose)
-  - [Install the app based on helm chart](#install-the-app-based-on-helm-chart)
+  - [Install the app based on Helm chart](#install-the-app-based-on-helm-chart)
 - [How to uninstall](#how-to-uninstall)
 - [Confirm the installation was successful](#confirm-the-installation-was-successful)
 
@@ -72,7 +72,7 @@ chmod +x build-image.sh
 
 ### How to install
 
-The sample IVA app contains `Docker Compose` and `helm chart` configuration files to assist the deployment of the connectivity sample IVA app. It is also possible to run the IVA app as a process for debug purposes.
+The sample IVA app contains `Docker Compose` and `Helm chart` configuration files to assist the deployment of the connectivity sample IVA app. It is also possible to run the IVA app as a process for debug purposes.
 
 The relevant deployment files are as follows:
 
@@ -95,7 +95,7 @@ The relevant deployment files are as follows:
 Main files:
 
 - .env: This file contains the IVA app's settings. You must change the `EXTERNAL_IP` and `EXTERNAL_HOSTNAME` variables and possibly change more than these variables, depending on your network and machines.
-- certs: The certificate files in this folder must be identical to the files used by [Securing the Milestone AI Bridge connection (Docker Compose)](https://doc.milestonesys.com/AIB/Help/latest/en-us/feature_flags/ff_aibridge/aibi_dc_securing.htm). For helm chart installation, use the same certificates used for [Securing the Milestone AI Bridge connection (Kubernetes)](https://doc.milestonesys.com/AIB/Help/latest/en-us/feature_flags/ff_aibridge/aibi_k8_securing_aib_connection.htm). The usage of certificates are OPTIONAL and only relevant if the IVA app runs over SSL.
+- certs: The certificate files in this folder must be identical to the files used by [Securing the Milestone AI Bridge connection (Docker Compose)](https://doc.milestonesys.com/AIB/Help/latest/en-us/feature_flags/ff_aibridge/aibi_dc_securing.htm). For Helm chart installation, use the same certificates used for [Securing the Milestone AI Bridge connection (Kubernetes)](https://doc.milestonesys.com/AIB/Help/latest/en-us/feature_flags/ff_aibridge/aibi_k8_securing_aib_connection.htm). The usage of certificates are OPTIONAL and only relevant if the IVA app runs over SSL.
 - config: This folder contains the `register.graphql` file where IVA topics can be defined for the IVA app.
 
 The rest of files located at this directory will be explained at the relevant deployment methods.
@@ -146,7 +146,7 @@ Once you fulfilled the requirements, run the IVA app and do following:
 
 - [Run as process](#run-as-process)
 - [Install the app based on Docker Compose](#install-the-app-based-on-docker-compose) (if you are using Docker-Compose)
-- [Install the app based on helm chart](#install-the-app-based-on-helm-chart) (if you are using Kubernetes)
+- [Install the app based on Helm chart](#install-the-app-based-on-helm-chart) (if you are using Kubernetes)
 
 #### Run as process
 
@@ -241,11 +241,13 @@ For more information: [Securing the Milestone AI Bridge connection (Docker Compo
 
 - Check the [Confirm the installation was successful](#confirm-the-installation-was-successful) section to validate your app was run successfully.
 
-#### Install the app based on helm chart
+#### Install the app based on Helm chart
 
-If you are using Kubernetes and helm chart to configure your Milestone AI Bridge, you must also use helm chart to configure your IVA apps.
+If you are using Kubernetes and Helm chart to configure your Milestone AI Bridge, you must also use Helm chart to configure your IVA apps.
 
 When you have all the requirements listed at the [How to install](#how-to-install) section, you can deploy the sample IVA app on your cluster by following the guide located in the `helm` folder [README](helm/README.md).
+
+In case you don't want to clone this repository, you can always pull the Helm chart from [AWS ECR](https://gallery.ecr.aws/milestonesys/aibridge/apps/connectivitysample), following [this guide](helm/README.md#pulling-helm-charts-from-aws-ecr).
 
 When you are finished, check the [Confirm the installation was successful](#confirm-the-installation-was-successful) section to validate your app was run successfully.
 
@@ -259,7 +261,7 @@ Navigate to the folder where the IVA app `docker-compose.yaml` file is located a
 docker-compose down
 ```
 
-#### For helm chart installation
+#### For Helm chart installation
 
 Navigate to the folder where the IVA app `values.yaml` file is located and run the following command:
 
