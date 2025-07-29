@@ -1,0 +1,12 @@
+# python
+*_pb2*
+__pycache__
+.pycache
+
+# venv
+**/**_venv
+
+# other
+bin
+generated
+data
