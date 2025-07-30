@@ -15,15 +15,15 @@ metadata:
     app.kubernetes.io/part-of: {{ .Chart.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   ingressClassName: nginx
   rules:
     - host: {{ .Values.general.externalHostname | lower }}
       http:
         paths:
-          - path: /({{ .Values.general.appUrlPath | lower }}/?.*)
-            pathType: Exact
+          - path: /{{ .Values.general.appUrlPath | lower }}/?.*
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: {{ .Release.Name }}-iva-connectivitysample

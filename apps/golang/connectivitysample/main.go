@@ -31,12 +31,18 @@ var graphqlRepository *repositories.GraphqlRepository
 var graphqlService *services.GraphqlService
 var tokenService *services.TokenService
 var queryStringService *services.QueryStringService
-var analyticEventService *services.AnalyticEventService
+var analyticEventService *services.TopicRestService
+var onvifMetadataService *services.TopicRestService
+var onvifFrameMetadataService *services.TopicRestService
+var deepstreamMinimalMetadataService *services.TopicRestService
 
 // Handlers
 var homeHandler *handlers.HomeHandler
 var snapshotHandler *handlers.SnapshotHandler
 var eventHandler *handlers.EventHandler
+var onvifHandler *handlers.OnvifHandler
+var onvifFrameHandler *handlers.OnvifFrameHandler
+var deepstreamMinimalHandler *handlers.DeepstreamMinimalHandler
 
 func main() {
 	// Note, that if you run this web server inside the kubernetes cluster,
@@ -80,19 +86,52 @@ func main() {
 	graphqlService = services.NewGraphqlService(queryURL)
 	tokenService = services.NewTokenService(graphqlRepository, queryURL, commandLineParameters)
 	queryStringService = services.NewQueryStringService()
-	analyticEventService = services.NewAnalyticEventService(&sync.Map{}, graphqlService)
+	analyticEventService = services.NewTopicRestService(&sync.Map{}, graphqlService)
+	onvifMetadataService = services.NewTopicRestService(&sync.Map{}, graphqlService)
+	onvifFrameMetadataService = services.NewTopicRestService(&sync.Map{}, graphqlService)
+	deepstreamMinimalMetadataService = services.NewTopicRestService(&sync.Map{}, graphqlService)
 
 	homeHandler = handlers.NewHomeHandler()
 	snapshotHandler = handlers.NewSnapshotHandler(tokenService, graphqlService, queryStringService, commandLineParameters)
 	eventHandler = handlers.NewEventHandler(queryStringService, analyticEventService, commandLineParameters)
+	onvifHandler = handlers.NewOnvifHandler(queryStringService, onvifMetadataService, commandLineParameters)
+	onvifFrameHandler = handlers.NewOnvifFrameHandler(queryStringService, onvifFrameMetadataService, commandLineParameters)
+	deepstreamMinimalHandler = handlers.NewDeepstreamMinimalHandler(queryStringService, deepstreamMinimalMetadataService, commandLineParameters)
 
 	http.HandleFunc("/", homeHandler.Handle)
 	http.HandleFunc("/"+commandLineParameters.AppUrlPath()+"/snapshot/", snapshotHandler.Handle)
 	http.HandleFunc("/"+commandLineParameters.AppUrlPath()+"/event/", eventHandler.Handle)
+	http.HandleFunc("/"+commandLineParameters.AppUrlPath()+"/onvif/", onvifHandler.Handle)
+	http.HandleFunc("/"+commandLineParameters.AppUrlPath()+"/onvifframe/", onvifFrameHandler.Handle)
+	http.HandleFunc("/"+commandLineParameters.AppUrlPath()+"/deepstreamminimal/", deepstreamMinimalHandler.Handle)
 	http.HandleFunc("/"+commandLineParameters.AppUrlPath()+"/event/processing/", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodPost:
 			eventHandler.ProcessingHandle(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+	http.HandleFunc("/"+commandLineParameters.AppUrlPath()+"/onvif/processing/", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodPost:
+			onvifHandler.ProcessingHandle(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+	http.HandleFunc("/"+commandLineParameters.AppUrlPath()+"/onvifframe/processing/", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodPost:
+			onvifFrameHandler.ProcessingHandle(w, r)
+		default:
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		}
+	})
+	http.HandleFunc("/"+commandLineParameters.AppUrlPath()+"/deepstreamminimal/processing/", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodPost:
+			deepstreamMinimalHandler.ProcessingHandle(w, r)
 		default:
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		}

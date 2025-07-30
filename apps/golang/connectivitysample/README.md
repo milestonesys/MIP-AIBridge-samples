@@ -175,7 +175,7 @@ Do the following to run the sample IVA app on your system:
 
   ```txt
   2024/11/22 18:00:51 Component: connectivity-sample
-  2024/11/22 18:00:51 GoVersion: go1.22.5
+  2024/11/22 18:00:51 GoVersion: go1.24.1
   2024/11/22 18:00:51 -aib-webservice-location localhost:4000
   2024/11/22 18:00:51 -app-registration-file-path /path/to/config/register.graphql
   2024/11/22 18:00:51 -app-url-path connectivitysample
@@ -225,7 +225,7 @@ For more information: [Securing the Milestone AI Bridge connection (Docker Compo
   Running hooks in /etc/ca-certificates/update.d...
   done.
   2024/11/25 09:59:18 Component: connectivity-sample
-  2024/11/25 09:59:18 GoVersion: go1.22.9
+  2024/11/25 09:59:18 GoVersion: go1.24.1
   2024/11/25 09:59:18 -aib-webservice-location aibridge-webservice:4000
   2024/11/25 09:59:18 -app-registration-file-path /root/bin/config/register.graphql
   2024/11/25 09:59:18 -app-url-path connectivitysample
@@ -327,7 +327,7 @@ This query should print the following the output to the screen:
 
 ### Using
 
-- golang 1.22.5
+- golang 1.24.1
 
 ### Environment
 

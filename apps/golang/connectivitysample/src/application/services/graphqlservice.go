@@ -37,9 +37,14 @@ func (gs *GraphqlService) GetSnapshot(ctx context.Context, deviceID, streamID, t
 	return gs.graphqlRepository.GetSnapshot(ctx, gs.requestUrl, deviceID, streamID, token, commandLineParameters)
 }
 
-// Returns the REST endpoint for a given topic name
+// Returns the REST endpoint for a given event topic name
 func (gs *GraphqlService) GetRestEventTopicEndpoint(ctx context.Context, topicName string) (string, error) {
 	return gs.graphqlRepository.GetRestEventTopicEndpoint(ctx, gs.requestUrl, topicName)
+}
+
+// Returns the REST endpoint for a given metadata topic name
+func (gs *GraphqlService) GetRestMetadataTopicEndpoint(ctx context.Context, topicName string) (string, error) {
+	return gs.graphqlRepository.GetRestMetadataTopicEndpoint(ctx, gs.requestUrl, topicName)
 }
 
 /* --- GraphQL mutations ----------------------------------------------------- */

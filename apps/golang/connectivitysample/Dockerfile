@@ -1,6 +1,6 @@
 ARG BUILDPLATFORM="linux/amd64"
 
-FROM --platform=${BUILDPLATFORM} golang:1.22 AS builder
+FROM --platform=${BUILDPLATFORM} golang:1.24 AS builder
 ARG TARGETARCH
 WORKDIR /wspc/src/connectivitysample
 
@@ -20,7 +20,7 @@ SHELL ["/bin/bash", "-e", "-c"]
 WORKDIR /root
 
 # The app version matches the docker image tag.
-ENV TAG="1.0.0"
+ENV TAG="1.1.0"
 
 # Update packages and install dependencies
 RUN apt update && apt upgrade -y && \

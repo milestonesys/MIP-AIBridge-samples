@@ -44,7 +44,7 @@ spec:
           optional: false
       containers:
         - name: {{ .Release.Name }}-iva-connectivitysample
-          image: public.ecr.aws/milestonesys/aibridge/apps/connectivitysample:connectivity-sample-1.0.0
+          image: public.ecr.aws/milestonesys/aibridge/apps/connectivitysample:connectivity-sample-1.1.0
           imagePullPolicy: IfNotPresent
           env:
             - name: EXTERNAL_HOSTNAME

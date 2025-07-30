@@ -17,7 +17,7 @@ fi
 source "${APP_ROOT_DIR}/.env"
 
 # Declare needed environment variables
-export TAG="1.0.0"
+export TAG="1.1.0"
 export EXTERNAL_HOSTNAME=${EXTERNAL_HOSTNAME}
 export APP_WEBSERVER_PORT=${APP_WEBSERVER_PORT}
 export APP_URL_PATH=${APP_URL_PATH}

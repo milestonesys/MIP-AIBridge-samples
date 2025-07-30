@@ -17,7 +17,7 @@ Each app must have an `id`, `url`, `name`, `version`, and a `description`.
 id: "28a6bc9a-0833-46c6-958e-19da4ee6d9e5"
 url: "${TLS_SCHEME}://${EXTERNAL_HOSTNAME}:${APP_WEBSERVER_PORT}/${APP_URL_PATH}"
 name: "Connectivity sample"
-version: "1.0.0"
+version: "1.1.0"
 description: "Sample IVA to showcase how IVAs work."
 ```
 

@@ -1,0 +1,9 @@
+{
+    "version": "4.0",
+    "id": 0,
+    "@timestamp": "##CurrentTimestamp##",
+    "sensorId": "##CameraStreamId##",
+    "objects": [
+        "-1|260|481.304|311|628.043|Person|#|male|45|black|none|formal|-0.1"
+    ]
+}

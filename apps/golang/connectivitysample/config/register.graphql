@@ -18,4 +18,20 @@ apps: [ {
     description: "Send Analytic Events"
     eventFormat: ANALYTICS_EVENT
   } ]
+  metadataTopics: [ {
+    url: "${TLS_SCHEME}://${EXTERNAL_HOSTNAME}:${APP_WEBSERVER_PORT}/${APP_URL_PATH}/onvif/sendonvif"
+    name: "sendonvif"
+    description: "Send ONVIF Metadata"
+    metadataFormat: ONVIF_ANALYTICS
+  }, {
+    url: "${TLS_SCHEME}://${EXTERNAL_HOSTNAME}:${APP_WEBSERVER_PORT}/${APP_URL_PATH}/onvifframe/sendframe"
+    name: "sendframe"
+    description: "Send ONVIF Frame Metadata"
+    metadataFormat: ONVIF_ANALYTICS_FRAME
+  }, {
+    url: "${TLS_SCHEME}://${EXTERNAL_HOSTNAME}:${APP_WEBSERVER_PORT}/${APP_URL_PATH}/deepstreamminimal/senddeepstreamminimal"
+    name: "senddeepstreamminimal"
+    description: "Send Deepstream Minimal Metadata"
+    metadataFormat: DEEPSTREAM_MINIMAL
+  } ]
 }]

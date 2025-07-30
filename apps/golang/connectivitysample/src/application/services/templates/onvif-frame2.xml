@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tt:Frame UtcTime="##CurrentTimestamp##" SourceStreamID="##CameraStreamId##">
+    <tt:Object ObjectId="1">
+        <tt:Appearance>
+            <tt:Shape>
+                <tt:BoundingBox bottom="0.5" right="1" top="1" left="0.5"/>
+                <tt:Extension>
+                    <BoundingBoxAppearance>
+                        <Fill color="#30ff5dec" />
+                        <Line color="#ffff5dec" displayedThicknessInPixels="2" />
+                    </BoundingBoxAppearance>
+                </tt:Extension>
+            </tt:Shape>
+            <tt:Extension>
+                <Description x="0.75" y="0.4" size="0.05" bold="true" italic="false" fontFamily="Helvetica" color="#ffff5dec">Current position</Description>
+            </tt:Extension>
+            <tt:GeoLocation lat="50.5" lon="40.5"></tt:GeoLocation>
+        </tt:Appearance>
+    </tt:Object>
+</tt:Frame>

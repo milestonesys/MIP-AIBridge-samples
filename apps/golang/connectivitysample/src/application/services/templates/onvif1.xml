@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tt:MetadataStream xmlns:tt="http://www.onvif.org/ver10/schema">
+    <tt:VideoAnalytics>
+        <tt:Frame UtcTime="##CurrentTimestamp##" SourceStreamID="##CameraStreamId##">
+            <tt:Object ObjectId="1">
+                <tt:Appearance>
+                    <tt:Class>
+                        <tt:ClassCandidate>
+                            <tt:Type>Vehicle</tt:Type>
+                            <tt:Likelihood>-0.1</tt:Likelihood>
+                        </tt:ClassCandidate>
+                    </tt:Class>
+                    <tt:VehicleInfo>
+                        <tt:Type>Car</tt:Type>
+                    </tt:VehicleInfo>
+                    <tt:Shape>
+                        <tt:BoundingBox bottom="0.5" right="-0.5" top="1" left="-1"/>
+                        <tt:Extension>
+                            <BoundingBoxAppearance>
+                                <Fill color="#30ff5dec" />
+                                <Line color="#ffff5dec" displayedThicknessInPixels="2" />
+                            </BoundingBoxAppearance>
+                        </tt:Extension>
+                    </tt:Shape>
+                    <tt:Extension>
+                        <Description x="-0.75" y="0.4" size="0.05" bold="true" italic="false" fontFamily="Helvetica" color="#ffff5dec">Top left rectangle</Description>
+                    </tt:Extension>
+                    <tt:Extension>
+                        <Properties>
+                            <Property name="VehicleType">Car</Property>
+                        </Properties>
+                    </tt:Extension>
+                </tt:Appearance>
+            </tt:Object>
+            <tt:Object ObjectId="2">
+                <tt:Appearance>
+                    <tt:Class>
+                        <tt:ClassCandidate>
+                            <tt:Type>Vehicle</tt:Type>
+                            <tt:Likelihood>-0.1</tt:Likelihood>
+                        </tt:ClassCandidate>
+                    </tt:Class>
+                    <tt:VehicleInfo>
+                        <tt:Type>Car</tt:Type>
+                    </tt:VehicleInfo>
+                    <tt:Shape>
+                        <tt:BoundingBox bottom="0.5" right="1" top="1" left="0.5"/>
+                        <tt:Extension>
+                            <BoundingBoxAppearance>
+                                <Fill color="#30ff5dec" />
+                                <Line color="#ffff5dec" displayedThicknessInPixels="2" />
+                            </BoundingBoxAppearance>
+                        </tt:Extension>
+                    </tt:Shape>
+                    <tt:Extension>
+                        <Description x="0.75" y="0.4" size="0.05" bold="true" italic="false" fontFamily="Helvetica" color="#ffff5dec">Top right rectangle</Description>
+                    </tt:Extension>
+                    <tt:Extension>
+                        <Properties>
+                            <Property name="VehicleType">Car</Property>
+                        </Properties>
+                    </tt:Extension>
+                </tt:Appearance>
+            </tt:Object>
+            <tt:Object ObjectId="3">
+                <tt:Appearance>
+                    <tt:Class>
+                        <tt:ClassCandidate>
+                            <tt:Type>Vehicle</tt:Type>
+                            <tt:Likelihood>-0.1</tt:Likelihood>
+                        </tt:ClassCandidate>
+                    </tt:Class>
+                    <tt:VehicleInfo>
+                        <tt:Type>Car</tt:Type>
+                    </tt:VehicleInfo>
+                    <tt:Shape>
+                        <tt:BoundingBox bottom="-1" right="-0.5" top="-0.5" left="-1"/>
+                        <tt:Extension>
+                            <BoundingBoxAppearance>
+                                <Fill color="#30ff5dec" />
+                                <Line color="#ffff5dec" displayedThicknessInPixels="2" />
+                            </BoundingBoxAppearance>
+                        </tt:Extension>
+                    </tt:Shape>
+                    <tt:Extension>
+                        <Description x="-0.75" y="-0.4" size="0.05" bold="true" italic="false" fontFamily="Helvetica" color="#ffff5dec">Bottom left rectangle</Description>
+                    </tt:Extension>
+                    <tt:Extension>
+                        <Properties>
+                            <Property name="VehicleType">Car</Property>
+                        </Properties>
+                    </tt:Extension>
+                </tt:Appearance>
+            </tt:Object>
+            <tt:Object ObjectId="4">
+                <tt:Appearance>
+                    <tt:Class>
+                        <tt:ClassCandidate>
+                            <tt:Type>Vehicle</tt:Type>
+                            <tt:Likelihood>-0.1</tt:Likelihood>
+                        </tt:ClassCandidate>
+                    </tt:Class>
+                    <tt:VehicleInfo>
+                        <tt:Type>Car</tt:Type>
+                    </tt:VehicleInfo>
+                    <tt:Shape>
+                        <tt:BoundingBox bottom="-1" right="1" top="-0.5" left="0.5"/>
+                        <tt:Extension>
+                            <BoundingBoxAppearance>
+                                <Fill color="#30ff5dec" />
+                                <Line color="#ffff5dec" displayedThicknessInPixels="2" />
+                            </BoundingBoxAppearance>
+                        </tt:Extension>
+                    </tt:Shape>
+                    <tt:Extension>
+                        <Description x="0.75" y="-0.4" size="0.05" bold="true" italic="false" fontFamily="Helvetica" color="#ffff5dec">Bottom right rectangle</Description>
+                    </tt:Extension>
+                    <tt:Extension>
+                        <Properties>
+                            <Property name="VehicleType">Car</Property>
+                        </Properties>
+                    </tt:Extension>
+                </tt:Appearance>
+            </tt:Object>
+            <tt:Object ObjectId="5">
+                <tt:Appearance>
+                    <tt:Class>
+                        <tt:ClassCandidate>
+                            <tt:Type>Vehicle</tt:Type>
+                            <tt:Likelihood>-0.1</tt:Likelihood>
+                        </tt:ClassCandidate>
+                    </tt:Class>
+                    <tt:VehicleInfo>
+                        <tt:Type>Car</tt:Type>
+                    </tt:VehicleInfo>
+                    <tt:Shape>
+                        <tt:BoundingBox bottom="-0.25" right="0.25" top="0.25" left="-0.25"/>
+                        <tt:Extension>
+                            <BoundingBoxAppearance>
+                                <Fill color="#30efb262" />
+                                <Line color="#ffc68b3e" displayedThicknessInPixels="2" />
+                            </BoundingBoxAppearance>
+                        </tt:Extension>
+                    </tt:Shape>
+                    <tt:Extension>
+                        <Description x="0" y="0.35" size="0.05" bold="true" italic="false" fontFamily="Helvetica" color="#ffc68b3e">Center rectangle</Description>
+                    </tt:Extension>
+                    <tt:Extension>
+                        <Properties>
+                            <Property name="VehicleType">Car</Property>
+                        </Properties>
+                    </tt:Extension>
+                </tt:Appearance>
+            </tt:Object>
+        </tt:Frame>
+    </tt:VideoAnalytics>
+</tt:MetadataStream>

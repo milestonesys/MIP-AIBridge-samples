@@ -177,6 +177,43 @@ func (gr *GraphqlRepository) GetRestEventTopicEndpoint(ctx context.Context, requ
 	return result.Data.EventTopics[0].TopicAvailability.Rest, nil
 }
 
+// Gets the rest metadata topic endpoint for a given topic name.
+func (gr *GraphqlRepository) GetRestMetadataTopicEndpoint(ctx context.Context, requestUrl, topicName string) (string, error) {
+	// Build request
+	request := `{
+	"query": "query Query_Metadata_Topics_By_Name($topicName:String!) {metadataTopics(topicName:$topicName){topicAvailability{rest}}}",
+	"variables" : { "topicName": "` + topicName + `"}
+	}`
+
+	// Send request
+	response, err := gr.sendRequest(ctx, requestUrl, request)
+	if err != nil {
+		return "", err
+	}
+
+	// Struct to parse response
+	var result struct {
+		Data struct {
+			MetadataTopics []struct {
+				TopicAvailability struct {
+					Rest string `json:"rest"`
+				} `json:"topicAvailability"`
+			} `json:"metadataTopics"`
+		} `json:"data"`
+	}
+	err = json.NewDecoder(response.Body).Decode(&result)
+	if err != nil {
+		return "", err
+	}
+
+	if len(result.Data.MetadataTopics) != 1 {
+		return "", errors.New("requested topic name was not found")
+	}
+
+	// If everything went well, we return the rest endpoint for this topic.
+	return result.Data.MetadataTopics[0].TopicAvailability.Rest, nil
+}
+
 /* --- GraphQL mutations ----------------------------------------------------- */
 
 // Register the app in AIBridge to all connected endpoints
