@@ -20,7 +20,7 @@ SHELL ["/bin/bash", "-e", "-c"]
 WORKDIR /root
 
 # The app version matches the docker image tag.
-ENV TAG="1.1.0"
+ENV TAG="2.0.0"
 
 # Update packages and install dependencies
 RUN apt update && apt upgrade -y && \

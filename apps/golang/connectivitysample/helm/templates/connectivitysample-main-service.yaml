@@ -44,7 +44,7 @@ spec:
           optional: false
       containers:
         - name: {{ .Release.Name }}-iva-connectivitysample
-          image: public.ecr.aws/milestonesys/aibridge/apps/connectivitysample:connectivity-sample-1.1.0
+          image: public.ecr.aws/milestonesys/aibridge/apps/connectivitysample:connectivity-sample-2.0.0
           imagePullPolicy: IfNotPresent
           env:
             - name: EXTERNAL_HOSTNAME
@@ -84,8 +84,6 @@ spec:
             - name: {{ .Release.Name }}-iva-connectivitysample-config
               mountPath: /root/bin/config
               readOnly: true
-      imagePullSecrets:
-      - name: nexus-cred-secret
       hostAliases:
 {{ include "hostAliases.external" . | indent 8 }}
 {{ include "hostAliases.vms" . | indent 8 }}

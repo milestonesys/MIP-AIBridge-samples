@@ -9,8 +9,8 @@ If you don't want to clone the entire repository, you can pull only the Helm cha
 To do this, run these commands:
 
   ```bash
-    helm pull oci://public.ecr.aws/milestonesys/aibridge/apps/connectivitysample --version 1.0.0
-    tar -zxvf connectivitysample-1.0.0.tgz
+    helm pull oci://public.ecr.aws/milestonesys/aibridge/apps/connectivitysample --version 2.0.0
+    tar -zxvf connectivitysample-2.0.0.tgz
     cd connectivitysample/
   ```
 After this, you will get a connectivitysample folder with the same structure as displayed below.
@@ -31,7 +31,7 @@ The following files are located in the helm folder.
 │   ├── _helpers.tpl
 │   ├── config.yaml
 │   ├── ingress-debug.yaml
-│   ├── ingress.yaml
+│   ├── gateway.yaml
 │   └── connectivitysample-main-service.yaml
 └── values.yaml
 ```
@@ -42,11 +42,11 @@ The following files are located in the helm folder.
   - `register.graphql`: Default file used to define and configure IVA topics for the IVA app. These URLs are handled by ingress.
   - `register-debug.graphql`: Optional file used used to define and configure IVA topics for the IVA app running in debug mode (the `debug` parameter defined in the `values.yaml` file is set to `true`). These URLs are accessed directly (no traffic will be handled by ingress).
 - templates: This folder contains the following template files:
-  - config.yaml: config.yaml: This template file defines a ConfigMap used to load the file `register.graphql` into the application.
-  - ingress-debug.yaml: Optional file used to expose IVA app services to the external network when the `debug` parameter defined in the `values.yaml` file is set to `true`. No traffic will be handled by ingress.
-  - ingress.yaml: Default file used to define the `Ingress` rules for the IVA app.
-  - connectivitysample-main-service.yaml: The main Helm chart template definition file for the IVA app. The file contains the necessary default values that enable the IVA app to run.
-- values.yaml: Contains the IVA app settings. The variables that must be changed in this file are `externalIP` and `externalHostname`.
+  - `config.yaml`: This template file defines a ConfigMap used to load the file `register.graphql` into the application.
+  - `ingress-debug.yaml`: Optional file used to expose IVA app services to the external network when the `debug` parameter defined in the `values.yaml` file is set to `true`. No traffic will be handled by `Gateway/HTTPRoute`.
+  - `gateway.yaml`: Default file used to define the `HTTPRoute` rules for the IVA app.
+  - `connectivitysample-main-service.yaml`: The main Helm chart template definition file for the IVA app. The file contains the necessary default values that enable the IVA app to run.
+- `values.yaml`: Contains the IVA app settings. The variables that must be changed in this file are `externalIP` and `externalHostname`.
 
 ## Running the app as a pod using Helm chart
 

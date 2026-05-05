@@ -1,0 +1,30 @@
+{{- /*
+  HTTPRoute for exposing the connectivity sample externally.
+  Attaches to the AI Bridge Gateway (aib-gateway).
+*/ -}}
+
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ .Release.Name }}-connectivitysample-route
+  labels:
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    app.kubernetes.io/name: connectivitysample-route
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/component: gateway
+    app.kubernetes.io/part-of: {{ .Chart.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  parentRefs:
+    - name: aib-gateway
+  hostnames:
+    - {{ .Values.general.externalHostname | lower }}
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /{{ .Values.general.appUrlPath | lower }}
+      backendRefs:
+        - name: {{ .Release.Name }}-iva-connectivitysample
+          port: {{ .Values.general.appWebserverPort | default 7443 }}

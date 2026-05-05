@@ -169,7 +169,7 @@ func (gr *GraphqlRepository) GetRestEventTopicEndpoint(ctx context.Context, requ
 		return "", err
 	}
 
-	if len(result.Data.EventTopics) != 1 {
+	if len(result.Data.EventTopics) <= 0 {
 		return "", errors.New("requested topic name was not found")
 	}
 
@@ -206,7 +206,7 @@ func (gr *GraphqlRepository) GetRestMetadataTopicEndpoint(ctx context.Context, r
 		return "", err
 	}
 
-	if len(result.Data.MetadataTopics) != 1 {
+	if len(result.Data.MetadataTopics) <= 0 {
 		return "", errors.New("requested topic name was not found")
 	}
 

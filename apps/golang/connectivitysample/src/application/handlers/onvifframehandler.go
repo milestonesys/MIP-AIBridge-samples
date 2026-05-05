@@ -13,18 +13,18 @@ import (
 // Handles all requests coming to the '/onvifframe' endpoint.
 type OnvifFrameHandler struct {
 	queryStringService    *services.QueryStringService
-	TopicRestService      *services.TopicRestService
+	topicRestService      *services.TopicRestService
 	commandLineParameters *entities.CommandLineParameters
-	fileReader            *services.FileReader
+	fileReaderService     *services.FileReaderService
 }
 
 func NewOnvifFrameHandler(queryStringService *services.QueryStringService,
-	TopicRestService *services.TopicRestService, commandLineParameters *entities.CommandLineParameters) *OnvifFrameHandler {
+	topicRestService *services.TopicRestService, commandLineParameters *entities.CommandLineParameters) *OnvifFrameHandler {
 	return &OnvifFrameHandler{
 		queryStringService:    queryStringService,
-		TopicRestService:      TopicRestService,
+		topicRestService:      topicRestService,
 		commandLineParameters: commandLineParameters,
-		fileReader:            services.NewFileReader("onvif-frame", "xml"),
+		fileReaderService:     services.NewFileReaderService("onvif-frame", "xml"),
 	}
 }
 
@@ -47,7 +47,7 @@ func (oh *OnvifFrameHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	cameraID := queryStringContext.CameraID
 	streamID := queryStringContext.StreamID
 
-	isMetadataBeingSent := oh.TopicRestService.IsDataBeingSent(cameraID)
+	isMetadataBeingSent := oh.topicRestService.IsDataBeingSent(cameraID)
 	metadataSendingCurrentStatus := startStatus
 	if isMetadataBeingSent {
 		metadataSendingCurrentStatus = stopStatus
@@ -101,19 +101,19 @@ func (oh *OnvifFrameHandler) ProcessingHandle(w http.ResponseWriter, r *http.Req
 		EventStatus string `json:"EventStatus"`
 	}
 
-	isMetadataBeingSent := oh.TopicRestService.IsDataBeingSent(eventData.CameraID)
+	isMetadataBeingSent := oh.topicRestService.IsDataBeingSent(eventData.CameraID)
 	if isMetadataBeingSent {
-		oh.TopicRestService.StopSendingData(eventData.CameraID)
+		oh.topicRestService.StopSendingData(eventData.CameraID)
 		eventDataResponse.EventStatus = startStatus
 	} else {
 		log.Printf("Sending metadata")
 		// Get the ONVIF Frame metadata content
-		xmls, err := oh.fileReader.ReadMultipleFiles()
+		xmls, err := oh.fileReaderService.ReadMultipleFiles()
 		if err != nil {
 			log.Printf("Error getting the ONVIF Frame metadata content: %s", err)
 			return
 		}
-		oh.TopicRestService.SendDataAsync(eventData.CameraID, eventData.StreamID, eventData.TopicName, enums.Metadata, "xml", xmls)
+		oh.topicRestService.SendDataAsync(eventData.CameraID, eventData.StreamID, eventData.TopicName, enums.Metadata, "xml", xmls)
 		eventDataResponse.EventStatus = stopStatus
 	}
 

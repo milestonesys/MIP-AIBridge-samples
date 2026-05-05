@@ -16,18 +16,18 @@ var stopStatus = "Stop"
 // Handles all requests coming to the '/event' endpoint.
 type EventHandler struct {
 	queryStringService    *services.QueryStringService
-	TopicRestService      *services.TopicRestService
+	topicRestService      *services.TopicRestService
 	commandLineParameters *entities.CommandLineParameters
-	fileReader            *services.FileReader
+	fileReaderService     *services.FileReaderService
 }
 
 func NewEventHandler(queryStringService *services.QueryStringService,
-	TopicRestService *services.TopicRestService, commandLineParameters *entities.CommandLineParameters) *EventHandler {
+	topicRestService *services.TopicRestService, commandLineParameters *entities.CommandLineParameters) *EventHandler {
 	return &EventHandler{
 		queryStringService:    queryStringService,
-		TopicRestService:      TopicRestService,
+		topicRestService:      topicRestService,
 		commandLineParameters: commandLineParameters,
-		fileReader:            services.NewFileReader("analyticEvent", "json"),
+		fileReaderService:     services.NewFileReaderService("analyticEvent", "json"),
 	}
 }
 
@@ -51,7 +51,7 @@ func (eh *EventHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	cameraID := queryStringContext.CameraID
 	streamID := queryStringContext.StreamID
 
-	isEventBeingSent := eh.TopicRestService.IsDataBeingSent(cameraID)
+	isEventBeingSent := eh.topicRestService.IsDataBeingSent(cameraID)
 	eventSendingCurrentStatus := startStatus
 	if isEventBeingSent {
 		eventSendingCurrentStatus = stopStatus
@@ -103,17 +103,17 @@ func (eh *EventHandler) ProcessingHandle(w http.ResponseWriter, r *http.Request)
 		EventStatus string `json:"EventStatus"`
 	}
 
-	isEventBeingSent := eh.TopicRestService.IsDataBeingSent(eventData.CameraID)
+	isEventBeingSent := eh.topicRestService.IsDataBeingSent(eventData.CameraID)
 	if isEventBeingSent {
-		eh.TopicRestService.StopSendingData(eventData.CameraID)
+		eh.topicRestService.StopSendingData(eventData.CameraID)
 		eventDataResponse.EventStatus = startStatus
 	} else {
-		json, err := eh.fileReader.ReadSingleFile()
+		json, err := eh.fileReaderService.ReadSingleFile()
 		if err != nil {
 			log.Printf("Error getting the analytic events: %s", err)
 			return
 		}
-		eh.TopicRestService.SendDataAsync(eventData.CameraID, eventData.TopicName, eventData.TopicName, enums.Event, "json", []string{json})
+		eh.topicRestService.SendDataAsync(eventData.CameraID, eventData.TopicName, eventData.TopicName, enums.Event, "json", []string{json})
 		eventDataResponse.EventStatus = stopStatus
 	}
 

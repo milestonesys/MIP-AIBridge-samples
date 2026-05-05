@@ -11,13 +11,13 @@ import (
 //go:embed templates/*
 var embeddedFiles embed.FS
 
-type FileReader struct {
+type FileReaderService struct {
 	fileName   string
 	fileFormat string
 }
 
-func NewFileReader(fileName string, fileFormat string) *FileReader {
-	return &FileReader{
+func NewFileReaderService(fileName string, fileFormat string) *FileReaderService {
+	return &FileReaderService{
 		fileName:   fileName,
 		fileFormat: fileFormat,
 	}
@@ -29,7 +29,7 @@ func NewFileReader(fileName string, fileFormat string) *FileReader {
 // Having two or more files helps us being able to simulate movement with their data or create some variance
 // The method returns an array with all the files' content on string format
 
-func (fr *FileReader) ReadMultipleFiles() ([]string, error) {
+func (fr *FileReaderService) ReadMultipleFiles() ([]string, error) {
 	templatesDir := "templates"
 	files, err := embeddedFiles.ReadDir(templatesDir)
 
@@ -65,7 +65,7 @@ func (fr *FileReader) ReadMultipleFiles() ([]string, error) {
 
 // Reads a single file that uses the specified filename plus the file format, like analyticEvent.json
 
-func (fr *FileReader) ReadSingleFile() (string, error) {
+func (fr *FileReaderService) ReadSingleFile() (string, error) {
 	content, err := fr.readFile("templates/" + fr.fileName + "." + fr.fileFormat)
 	if err != nil {
 		return "", err
@@ -102,7 +102,7 @@ func TreatEventFile(eventContent string, cameraID string) string {
 
 // Private methods
 
-func (fr *FileReader) readFile(filePath string) (string, error) {
+func (fr *FileReaderService) readFile(filePath string) (string, error) {
 	content, err := embeddedFiles.ReadFile(filePath)
 	if err != nil {
 		return "", err
